@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{ env('APP_NAME') }}</title>
+    <x-template />
+</head>
+<body>
+    <div class="hold-transition login-page">
+        <div class="login-box">
+            <div class="login-logo">
+            <a href=""><b>{{ env('APP_COMPANY') }}</b> {{ env('APP_TYPE') }}</a>
+            </div>
+            <!-- /.login-logo -->
+            <div class="card">
+                <div class="card-body login-card-body">
+                    <p class="login-box-msg">Welcome to {{ env('APP_NAME') }}!</p>
+                    <form id='login-form'>
+                        @csrf
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control username" name="user_email" placeholder="Enter your Email">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-user"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-group mb-3">
+                            <input type="password" class="form-control password"  name="user_password" placeholder="Enter your Password">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-lock"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-8">
+                            </div>
+                            <div class="col-4">
+                            <a class="btn btn-sm btn-primary btn-block login-btn text-white">Sign In</a>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    $('.login-btn').click(function (e) {
+        e.preventDefault();
+        let frm = $('#login-form')
+        $.ajax({
+            type: "post",
+            url: "{!! route('login.login') !!}",
+            data: frm.serialize(),
+            success: function (response) {
+                if(response.s == 'success')
+                    return window.location.replace("{!! route('startup.index') !!}")
+
+                swal(response.h,response.m,response.s)
+            }
+        });
+
+    });
+</script>
+</html>
+
+
+
+
