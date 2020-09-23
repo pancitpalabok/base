@@ -42,15 +42,18 @@ class LoginController extends Controller
             ];
 
 
-        $query = "  SELECT
-                        *
-                    FROM atb_user a
-                    INNER JOIN atb_user_type b ON a.user_type = b.user_type
-                    INNER JOIN atb_user_access c ON a.user_id = c.user_id
-                    WHERE a.user_email = ?";
-        $user_info =  DB::select(DB::raw($query),[$post->user_email]);
+        $user_info = DB::select("CALL sp_login(?)",[$post->user_email]);
 
         foreach($user_info as $user_info)
+
+
+        if(empty($user_info))
+            return [
+                'h'=>"Login Failed",
+                'm'=>"Incorrect email / password",
+                's'=>"error",
+            ];
+
 
         if(!Hash::check($post->user_password,$user_info->user_password))
             return [
@@ -67,23 +70,11 @@ class LoginController extends Controller
             ];
 
 
-        if(empty($user_info))
-            return [
-                'h'=>"Login Failed",
-                'm'=>"Incorrect email / password",
-                's'=>"error",
-            ];
-
         /* Success Login */
-
-        $id = session()->getID();
-        DB::raw("UPDATE sessions SET user_id = ? WHERE id = ?", [$user_info->user_id,$id]);
 
         session([
             'user_data'=>$user_info
         ]);
-
-
 
         return [
             's'=>"success"

@@ -43,15 +43,30 @@ Route::group(['middleware' => 'islogged'], function () {
     Route::get('/users',[UsersController::class,'index'])->name('users.index');
 
         /* USERS TYPE */
-        Route::get('/users-type',[UsersController::class,'data_user_type'])->name('users.type');
+        Route::get('/users-type',[UsersController::class,'users_type_data'])->name('users.type');
 
-        Route::post('/users-type',[UsersController::class,'users_type_add'])->name('users.type.add');
+            /* USERS TYPE ACTION */
+            Route::post('/users-type',[UsersController::class,'users_type_add'])->name('users.type.add');
 
-        Route::delete('/users-type',[UsersController::class,'users_type_delete'])->name('users.type.delete');
+            Route::delete('/users-type',[UsersController::class,'users_type_delete'])->name('users.type.delete');
+
+            Route::put('/users-type',[UsersController::class,'users_type_edit'])->name('users.type.edit');
 
         /* USERS */
-        Route::get('/users-list',[UsersController::class,'data_user_list'])->name('users.list');
+        Route::get('/users-list',[UsersController::class,'users_list_data'])->name('users.list');
 
-        Route::post('/users-list-add',[UsersController::class,'users_list_add'])->name('users.list.add');
+            /* USERS ACTION */
+            Route::put('/users-list',[UsersController::class,'users_list_edit'])->name('users.list.edit');
+
+            Route::post('/users-list',[UsersController::class,'users_list_add'])->name('users.list.add');
+
+            Route::delete('/users-list',[UsersController::class,'users_list_delete'])->name('users.list.delete');
+
+            Route::put('/users-list-lock',[UsersController::class,'users_list_lock'])->name('users.list.lock');
+
+            Route::put('/users-list-unlock',[UsersController::class,'users_list_unlock'])->name('users.list.unlock');
+
+            Route::put('/users-list-reset',[UsersController::class,'users_list_reset'])->name('users.list.reset');
+
 
 });

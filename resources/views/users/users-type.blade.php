@@ -25,14 +25,17 @@
         <x-users
             method="type-add"
         ></x-users>
+        <x-users
+            method="type-edit"
+        ></x-users>
     </div>
 </div>
 <script>
     $(function(){
-        data_user_type()
+        users_type_data()
     })
 
-    function data_user_type()
+    function users_type_data()
     {
         var tbl = $('.data-users-type')
         var rcount = 0;
@@ -83,7 +86,7 @@
         });
     }
 
-    function delete_user_type(tr)
+    function user_type_delete(tr)
     {
         var data = tr.parents("tr")
         var user_type = data.data('user_type')
@@ -92,7 +95,7 @@
 
         swal({
                 title: "Are you sure?",
-                text: "Once deleted, you want to remove "+user_type_name+"?",
+                text: "Once deleted, you cannot recover linked users to this user type, you want to continue removing "+user_type_name+"? ",
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,
@@ -103,16 +106,20 @@
                         type : 'delete', url : "{!! route('users.type.delete') !!}", data : { user_type : user_type , _token : "{!! csrf_token() !!}" }
                     }).done(function(res){
                         swal(res.h,res.m,res.s)
-                        data_user_type()
+                        users_type_data()
                     })
                 }
             }
         );
     }
 
-    function edit_user_type(tr)
+    function user_type_edit(tr)
     {
         var data = tr.parents('tr')
+        var modal = $('#mod-user-type-edit')
+        modal.modal('show')
+        modal.find('.user_type').val(data.data('user_type'))
+        modal.find('.user_type_name').val(data.data('user_type_name'))
     }
 
 </script>

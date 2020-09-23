@@ -53,8 +53,8 @@
                 if(data.s == 'success') {
                     $('.users-list-add').modal('hide')
                     frm.trigger("reset");
-                    data_user_type()
-                    data_user_list()
+                    users_type_data()
+                    users_list_data()
                 }
             }
         );
