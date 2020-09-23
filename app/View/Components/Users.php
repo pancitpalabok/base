@@ -13,12 +13,15 @@ class Users extends Component
      */
 
     public $method;
+    public $validator;
     public $data = [];
 
-    public function __construct($method,$data = [])
+    public function __construct($method,$data = [],$validator=0)
     {
         $this->method = $method;
+        $this->validator = $validator;
         $this->data = $data;
+
     }
 
     /**
