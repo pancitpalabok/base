@@ -28,6 +28,9 @@
         <x-users
             method="type-edit"
         ></x-users>
+        <x-users
+            method="type-access-edit"
+        ></x-users>
     </div>
 </div>
 <script>
@@ -120,6 +123,13 @@
         modal.modal('show')
         modal.find('.user_type').val(data.data('user_type'))
         modal.find('.user_type_name').val(data.data('user_type_name'))
+    }
+
+    function edit_user_access(tr)
+    {
+        var data = tr.parents('tr')
+        var modal = $('#mod-user-type-access-edit')
+        modal.modal('show')
     }
 
 </script>
