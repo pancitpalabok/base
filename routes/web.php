@@ -52,6 +52,10 @@ Route::group(['middleware' => 'islogged'], function () {
 
             Route::put('/users-type',[UsersController::class,'users_type_edit'])->name('users.type.edit');
 
+            Route::get('/users-type-access',[UsersController::class,'users_type_access_data'])->name('users.type.access.data');
+
+            Route::put('/users-type-access',[UsersController::class,'users_type_access_edit'])->name('users.type.access.edit');
+
         /* USERS */
         Route::get('/users-list',[UsersController::class,'users_list_data'])->name('users.list');
 

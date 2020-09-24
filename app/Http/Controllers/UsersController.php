@@ -47,6 +47,16 @@ class UsersController extends Controller
         return DB::select("CALL sp_users_type_data()");
     }
 
+    public function users_type_access_data()
+    {
+
+    }
+
+    public function users_type_access_edit(Request $request)
+    {
+        return $request;
+    }
+
 
 
     //-----------------------------------------------------------------------------------USERS
