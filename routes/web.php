@@ -22,8 +22,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/sess',[LoginController::class,'view_session']);
 
 
-
-
 Route::get('/login',[LoginController::class,'index'])->name('login.index');
 
 Route::post('/login',[LoginController::class,'login'])->name('login.login');
@@ -47,7 +45,7 @@ Route::group(['middleware' => 'islogged'], function () {
 
             /* USERS TYPE ACTION */
             Route::post('/users-type',[UsersController::class,'users_type_add'])->name('users.type.add');
-
+            
             Route::delete('/users-type',[UsersController::class,'users_type_delete'])->name('users.type.delete');
 
             Route::put('/users-type',[UsersController::class,'users_type_edit'])->name('users.type.edit');

@@ -1,5 +1,7 @@
 @php
     $user_info = (array) session()->get('user_data');
+
+    $user_access = session()->get('user_access');
 @endphp
 
 
@@ -21,15 +23,10 @@
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
-
-
             @foreach ($navigation as $link)
 
-                {{-- IF ACCESS = 0 THEN DO NOT DISPLAY NAVIGATION --}}
-                @if (isset($user_info[$link->access]))
-                    @if (!$user_info[$link->access])
-                        @continue
-                    @endif
+                @if (!in_array($link->access,$user_access) && $link->type != 'header')
+                    @continue
                 @endif
 
 

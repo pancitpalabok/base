@@ -41,6 +41,16 @@
             }
         });
 
+        let btn = $(this)
+        btn.html(`
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Loading...
+        `)
+        btn.addClass('disabled')
+
+
+
+
         $.post("{!! route('users.type.add') !!}", frm.serialize(),
             function (data, textStatus, jqXHR) {
                 swal(data.h,data.m,data.s)
@@ -49,6 +59,8 @@
                     frm.trigger("reset");
                     users_type_data()
                 }
+                btn.html("Confirm")
+                btn.removeClass('disabled')
             }
         );
     });
