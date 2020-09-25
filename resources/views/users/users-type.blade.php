@@ -69,6 +69,7 @@
                         udisabled = ''
                     }
 
+
                     tbl.append(`
                         <tr `+data+`>
                             <td  onclick="data_user_list(`+vrow.user_type+`)">`+rcount+`.</td>
@@ -79,6 +80,7 @@
                                         'user_type_name'=>'`+vrow.user_type_name+`',
                                         'user_type_count'=>'`+vrow.user_type_count+`',
                                         'disabled'=>'`+disabled+`',
+                                        'cog_disable'=>'`+vrow.user_type_disable+`',
                                         'udisabled'=>'`+udisabled+`',
                                     ]"
                                 />
@@ -116,6 +118,7 @@
         );
     }
 
+
     function user_type_edit(tr)
     {
         var data = tr.parents('tr')
@@ -130,6 +133,31 @@
         var data = tr.parents('tr')
         var modal = $('#mod-user-type-access-edit')
         modal.modal('show')
+        modal.find('input:checkbox').prop('checked',false)
+        modal.find('.user_type').val(data.data('user_type'))
+        var access = []
+
+
+        modal.find('.btn-primary').addClass('disabled')
+        if(data.data('user_type') != 1)
+            modal.find('.btn-primary').removeClass('disabled')
+
+
+        $.each(data.data(), function (access_key, access_val) {
+            if(access_key.includes('access'))
+                access[access_key] = access_val
+        })
+
+
+        access = access['user_access'].split(',');
+        $.each(access, function (indexInArray, val) {
+            modal.find('.'+val).prop('checked',true)
+
+        });
+
+
+
+
     }
 
 </script>

@@ -38,6 +38,13 @@
             }
         });
 
+        let btn = $(this)
+        btn.html(`
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Loading...
+        `)
+        btn.addClass('disabled')
+
         $.ajax({
             type: "put",
             url: "{!! route('users.list.edit') !!}",
@@ -51,6 +58,8 @@
                     users_type_data()
                     users_list_data()
                 }
+                btn.html("Confirm")
+                btn.removeClass('disabled')
             }
         });
 

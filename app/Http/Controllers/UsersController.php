@@ -54,7 +54,22 @@ class UsersController extends Controller
 
     public function users_type_access_edit(Request $request)
     {
-        return $request;
+        $put = (object) $request->all();
+        $user_type = $put->user_type;
+
+        unset($put->_token);
+        unset($put->user_type);
+
+        $access = [];
+        foreach($put as $key=>$val)
+            $access[] = $key;
+
+        $access = implode(",",$access);
+
+        $result = DB::select("CALL sp_users_type_access_edit(?,?)",[$user_type,$access]);
+        foreach($result as $result);
+        return (array) $result;
+
     }
 
 

@@ -39,7 +39,7 @@
                             <div class="col-8">
                             </div>
                             <div class="col-4">
-                            <a class="btn btn-sm btn-primary btn-block login-btn text-white">Sign In</a>
+                            <button class="btn btn-sm btn-primary btn-block login-btn text-white">Sign In</button>
                             </div>
                         </div>
                     </form>
@@ -53,6 +53,14 @@
     $('.login-btn').click(function (e) {
         e.preventDefault();
         let frm = $('#login-form')
+
+        let btn = $(this)
+        btn.html(`
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Loading...
+        `)
+        btn.addClass('disabled')
+
         $.ajax({
             type: "post",
             url: "{!! route('login.login') !!}",
@@ -62,6 +70,8 @@
                     return window.location.replace("{!! route('startup.index') !!}")
 
                 swal(response.h,response.m,response.s)
+                btn.html("Sign In")
+                btn.removeClass('disabled')
             }
         });
 

@@ -56,7 +56,7 @@ class StartupController extends Controller
                 'title'=>'Dashboard',
                 'icon'=>'tachometer-alt',
                 'link'=>route('dashboard.index'),
-                'access'=>'access_dashboard',
+                'access'=>'main_dashboard',
             ],
 
 
@@ -72,21 +72,21 @@ class StartupController extends Controller
                 'title'=>'Master List',
                 'icon'=>'th-list',
                 'link'=>route('dashboard.index'),
-                'access'=>'access_master_list',
+                'access'=>'main_masterlist',
             ],
             (object) [
                 'type'=>'link',
                 'title'=>'Users',
                 'icon'=>'users',
                 'link'=>route('users.index'),
-                'access'=>'access_users',
+                'access'=>'main_users',
             ],
             (object) [
                 'type'=>'link',
                 'title'=>'Setup',
                 'icon'=>'cogs',
                 'link'=>route('dashboard.index'),
-                'access'=>'access_settings',
+                'access'=>'main_setup',
             ],
 
 

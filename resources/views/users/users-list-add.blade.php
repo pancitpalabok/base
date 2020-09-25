@@ -47,6 +47,13 @@
             }
         });
 
+        let btn = $(this)
+        btn.html(`
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Loading...
+        `)
+        btn.addClass('disabled')
+
         $.post("{!! route('users.list.add') !!}", frm.serialize(),
             function (data, textStatus, jqXHR) {
                 swal(data.h,data.m,data.s)
@@ -56,6 +63,8 @@
                     users_type_data()
                     users_list_data()
                 }
+                btn.html("Confirm")
+                btn.removeClass('disabled')
             }
         );
     });

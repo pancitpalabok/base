@@ -18,4 +18,13 @@
 </div>
 <section class="content">
     Dashboard Content
+
+    @php
+        $user_access = (session()->get('user_access'));
+
+        if(in_array('usertype_add',$user_access))
+            echo 1
+    @endphp
+
+
 </section>
