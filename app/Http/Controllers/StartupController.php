@@ -71,7 +71,7 @@ class StartupController extends Controller
                 'type'=>'link',
                 'title'=>'Master List',
                 'icon'=>'th-list',
-                'link'=>route('dashboard.index'),
+                'link'=>route('master.index'),
                 'access'=>'2',
             ],
             (object) [

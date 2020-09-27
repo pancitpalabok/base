@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\MasterListController;
 use App\Http\Controllers\StartupController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
@@ -69,6 +70,11 @@ Route::group(['middleware' => 'islogged'], function () {
             Route::put('/users-list-reset',[UsersController::class,'users_list_reset'])->name('users.list.reset');
 
             Route::put('/users-list-access',[UsersController::class,'users_list_access_edit'])->name('users.list.access');
+
+
+    /* MASTER LIST */
+    Route::get('/master',[MasterListController::class,'index'])->name('master.index');
+
 
 
 });

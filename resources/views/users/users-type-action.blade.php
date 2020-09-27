@@ -7,25 +7,31 @@
 </a>
 
 {{-- ACESS --}}
-<a  class='btn btn-sm text-warning '
-    title='User Type Access'
-    onClick="user_type_access($(this))">
-        <i class='fas fa-users-cog'></i>
-</a>
+@if (in_array(18,session()->get('user_access')))
+    <a  class='btn btn-sm text-warning '
+        title='User Type Access'
+        onClick="user_type_access($(this))">
+            <i class='fas fa-users-cog'></i>
+    </a>
+@endif
 
 {{-- EDIT --}}
-<a  class='btn btn-sm text-success {{ $data->disabled }}'
-    onClick="user_type_edit($(this))"
-    title='Edit User Type'>
-        <i class='fas fa-edit'></i>
-</a>
+@if (in_array(14,session()->get('user_access')))
+    <a  class='btn btn-sm text-success {{ $data->disabled }}'
+        onClick="user_type_edit($(this))"
+        title='Edit User Type'>
+            <i class='fas fa-edit'></i>
+    </a>
+@endif
 
 {{-- DELETE --}}
-<a  class='btn btn-sm text-danger {{ $data->disabled }}'
-    onClick="user_type_delete($(this))"
-    title='Delete User Type'>
-        <i class='fas fa-trash'></i>
-</a>
+@if (in_array(16,session()->get('user_access')))
+    <a  class='btn btn-sm text-danger {{ $data->disabled }}'
+        onClick="user_type_delete($(this))"
+        title='Delete User Type'>
+            <i class='fas fa-trash'></i>
+    </a>
+@endif
 
 
 
