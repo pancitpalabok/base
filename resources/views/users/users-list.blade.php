@@ -2,7 +2,7 @@
     <div class="card-header bg-lightblue">
         <h3 class="card-title">User List</h3>
         <div class="card-tools">
-            <button type="button" class="btn btn-tool" onclick="data_user_list()"><i class="fas fa-redo"></i></button>
+            <button type="button" class="btn btn-tool" onclick="users_list_data()"><i class="fas fa-redo"></i></button>
             <button type="button" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand"></i></button>
         </div>
     </div>
@@ -28,6 +28,9 @@
         <x-users
             method="list-edit"
         ></x-users>
+        <x-users
+            method="list-access"
+        ></x-users>
     </div>
 </div>
 <script>
@@ -46,10 +49,8 @@
             type: "get",
             url: "{!! route('users.list') !!}",
             data : { user_type : user_type},
-            beforeSend : function(){
-                tbl.html('')
-            },
             success: function (response) {
+                tbl.html('')
                 $.each(response, function (krow,vrow) {
                     rcount+=1
                     var data = "";
@@ -191,7 +192,33 @@
         modal.modal('show')
         modal.find('.user_type').val(data.data('user_type'))
         modal.find('.user_id').val(data.data('user_id'))
+        modal.find('.user_access_ip').val(data.data('user_access_ip'))
+        modal.find('.user_email').html(data.data('user_email'))
     }
 
+    function user_list_access(tr)
+    {
+        let data = tr.parents('tr')
+        var modal = $('#mod-users-list-access')
+        modal.modal('show')
+        modal.find('.user_email').html(data.data('user_email'))
+        modal.find('.user_id').val(data.data('user_id'))
+
+        var access = []
+
+        let user_access = data.data('user_access')
+
+        if(user_access) {
+            if(!Number.isInteger(user_access)) {
+                access = user_access.split(',');
+                $.each(access, function (indexInArray, val) {
+                    modal.find('input:checkbox[data-id='+val+']').prop('checked',true)
+                });
+                return
+            }
+            modal.find('input:checkbox[data-id="'+user_access+'"]').prop('checked',true)
+        }
+
+    }
 
 </script>

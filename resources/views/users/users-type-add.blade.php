@@ -34,13 +34,6 @@
 
         var frm = $('#users-type-add')
 
-        $.each(frm.serializeArray(), function (a, b) {
-            if(b.value == '') {
-                swal("Add User Failed","Please fill all fields to continue","error")
-                return
-            }
-        });
-
         let btn = $(this)
         btn.html(`
             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
@@ -48,7 +41,19 @@
         `)
         btn.addClass('disabled')
 
+        let fail = false
 
+        $.each(frm.serializeArray(), function (a, b) {
+            if(b.value == '') {
+                swal("Add User Failed","Please enter user type name","error")
+                fail = true
+                btn.html("Confirm")
+                btn.removeClass('disabled')
+                return;
+            }
+        })
+
+        if(fail) return
 
 
         $.post("{!! route('users.type.add') !!}", frm.serialize(),
@@ -62,6 +67,7 @@
                 btn.html("Confirm")
                 btn.removeClass('disabled')
             }
-        );
+        )
+
     });
 </script>

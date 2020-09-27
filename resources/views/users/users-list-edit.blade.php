@@ -5,7 +5,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
         <div class="modal-header bg-lightblue">
-            <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-user-edit"></i> Edit User</h5>
+            <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-user-edit"></i> Edit User | <span class="user_email"></span></h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
             </button>
@@ -15,6 +15,13 @@
                 @csrf
                 <input type="hidden" name="user_id" class="user_id">
                 <select name="user_type" class="form-control user_type"></select>
+                <label for="">IP Address (Optional)</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-laptop"></i></span>
+                    </div>
+                    <input type="text" class="form-control user_access_ip" name="user_access_ip" placeholder="192.168.0.1" data-inputmask="'alias': 'ip'" data-mask="" im-insert="true">
+                </div>
             </form>
         </div>
         <div class="modal-footer">
@@ -32,9 +39,11 @@
         var frm = $('#users-list-edit')
 
         $.each(frm.serializeArray(), function (a, b) {
-            if(b.value == '') {
-                swal("Edit User Failed","Please fill all fields to continue","error")
-                return
+            if(b.name != 'user_access_ip') {
+                if(b.value == '') {
+                    swal("Edit User Failed","Please fill all fields to continue","error")
+                    return
+                }
             }
         });
 

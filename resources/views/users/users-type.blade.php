@@ -29,7 +29,7 @@
             method="type-edit"
         ></x-users>
         <x-users
-            method="type-access-edit"
+            method="type-access"
         ></x-users>
     </div>
 </div>
@@ -44,7 +44,6 @@
         var rcount = 0;
         var output = "";
 
-        tbl.html("")
 
         /* Add User*/
         $('.user_type').find('option').remove()
@@ -53,6 +52,8 @@
             type: "get",
             url: "{!! route('users.type') !!}",
             success: function (response) {
+                tbl.html("")
+
                 $.each(response, function (krow,vrow) {
                     rcount+=1
                     var data = "";
@@ -72,8 +73,8 @@
 
                     tbl.append(`
                         <tr `+data+`>
-                            <td  onclick="data_user_list(`+vrow.user_type+`)">`+rcount+`.</td>
-                            <td  onclick="data_user_list(`+vrow.user_type+`)">`+vrow.user_type_name+`</td>
+                            <td  onclick="users_list_data(`+vrow.user_type+`)">`+rcount+`.</td>
+                            <td  onclick="users_list_data(`+vrow.user_type+`)">`+vrow.user_type_name+`</td>
                             <td>
                                 <x-users method="type-action" :data="[
                                         'user_type'=>'`+vrow.user_type+`',
@@ -128,13 +129,14 @@
         modal.find('.user_type_name').val(data.data('user_type_name'))
     }
 
-    function edit_user_access(tr)
+    function user_type_access(tr)
     {
         var data = tr.parents('tr')
-        var modal = $('#mod-user-type-access-edit')
+        var modal = $('#mod-user-type-access')
         modal.modal('show')
         modal.find('input:checkbox').prop('checked',false)
         modal.find('.user_type').val(data.data('user_type'))
+        modal.find('.user_type_name').html(data.data('user_type_name'))
         var access = []
 
 
@@ -143,17 +145,18 @@
             modal.find('.btn-primary').removeClass('disabled')
 
 
-        $.each(data.data(), function (access_key, access_val) {
-            if(access_key.includes('access'))
-                access[access_key] = access_val
-        })
+        let user_access = data.data('user_access')
 
-
-        access = access['user_access'].split(',');
-        $.each(access, function (indexInArray, val) {
-            modal.find('.'+val).prop('checked',true)
-
-        });
+        if(user_access) {
+            if(!Number.isInteger(user_access)) {
+                access = user_access.split(',');
+                $.each(access, function (indexInArray, val) {
+                    modal.find('input:checkbox[data-id='+val+']').prop('checked',true)
+                });
+                return
+            }
+            modal.find('input:checkbox[data-id="'+user_access+'"]').prop('checked',true)
+        }
 
 
 
