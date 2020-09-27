@@ -60,6 +60,35 @@
     </div>
 </div>
 <script>
+
+
+    function user_list_access(tr)
+        {
+            let data = tr.parents('tr')
+            var modal = $('#mod-users-list-access')
+            modal.modal('show')
+            modal.find('input:checkbox').prop('checked',false)
+            modal.find('.user_email').html(data.data('user_email'))
+            modal.find('.user_id').val(data.data('user_id'))
+
+            var access = []
+
+            let user_access = data.data('user_access')
+
+            if(user_access) {
+                if(!Number.isInteger(user_access)) {
+                    access = user_access.split(',');
+                    $.each(access, function (indexInArray, val) {
+                        modal.find('input:checkbox[data-id='+val+']').prop('checked',true)
+                    });
+                    return
+                }
+                modal.find('input:checkbox[data-id="'+user_access+'"]').prop('checked',true)
+            }
+
+        }
+
+
     $('.btn-users-list-access').click(function (e) {
         e.preventDefault();
 

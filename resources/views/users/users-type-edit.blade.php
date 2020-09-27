@@ -27,6 +27,18 @@
 </div>
 
 <script>
+
+
+    function user_type_edit(tr)
+    {
+        var data = tr.parents('tr')
+        var modal = $('#mod-user-type-edit')
+        modal.modal('show')
+        modal.find('.user_type').val(data.data('user_type'))
+        modal.find('.user_type_name').val(data.data('user_type_name'))
+    }
+
+
     $('.btn-users-type-edit').click(function (e) {
         e.preventDefault();
 

@@ -129,48 +129,5 @@
     }
 
 
-    function user_type_edit(tr)
-    {
-        var data = tr.parents('tr')
-        var modal = $('#mod-user-type-edit')
-        modal.modal('show')
-        modal.find('.user_type').val(data.data('user_type'))
-        modal.find('.user_type_name').val(data.data('user_type_name'))
-    }
-
-    function user_type_access(tr)
-    {
-        var data = tr.parents('tr')
-        var modal = $('#mod-user-type-access')
-        modal.modal('show')
-        modal.find('input:checkbox').prop('checked',false)
-        modal.find('.user_type').val(data.data('user_type'))
-        modal.find('.user_type_name').html(data.data('user_type_name'))
-        var access = []
-
-
-        modal.find('.btn-primary').addClass('disabled')
-        if(data.data('user_type') != 1)
-            modal.find('.btn-primary').removeClass('disabled')
-
-
-        let user_access = data.data('user_access')
-
-        if(user_access) {
-            if(!Number.isInteger(user_access)) {
-                access = user_access.split(',');
-                $.each(access, function (indexInArray, val) {
-                    modal.find('input:checkbox[data-id='+val+']').prop('checked',true)
-                });
-                return
-            }
-            modal.find('input:checkbox[data-id="'+user_access+'"]').prop('checked',true)
-        }
-
-
-
-
-    }
-
 </script>
 
