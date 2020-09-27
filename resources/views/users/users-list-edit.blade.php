@@ -33,6 +33,20 @@
 </div>
 
 <script>
+
+
+
+    function users_list_edit(tr)
+    {
+        let data = tr.parents('tr')
+        var modal = $('#mod-user-list-edit')
+        modal.modal('show')
+        modal.find('.user_type').val(data.data('user_type'))
+        modal.find('.user_id').val(data.data('user_id'))
+        modal.find('.user_access_ip').val(data.data('user_access_ip'))
+        modal.find('.user_email').html(data.data('user_email'))
+    }
+
     $('.btn-users-list-edit').click(function (e) {
         e.preventDefault();
 

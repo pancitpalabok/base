@@ -83,7 +83,6 @@ class LoginController extends Controller
         session([
             'user_data'=>$user_info,
             'user_access'=>$user_access,
-            'user_permisions'=>$permisions
         ]);
 
         return [
