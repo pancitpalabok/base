@@ -45,14 +45,12 @@ Route::group(['middleware' => 'islogged'], function () {
 
             /* USERS TYPE ACTION */
             Route::post('/users-type',[UsersController::class,'users_type_add'])->name('users.type.add');
-            
+
             Route::delete('/users-type',[UsersController::class,'users_type_delete'])->name('users.type.delete');
 
             Route::put('/users-type',[UsersController::class,'users_type_edit'])->name('users.type.edit');
 
-            Route::get('/users-type-access',[UsersController::class,'users_type_access_data'])->name('users.type.access.data');
-
-            Route::put('/users-type-access',[UsersController::class,'users_type_access_edit'])->name('users.type.access.edit');
+            Route::put('/users-type-access',[UsersController::class,'users_type_access_edit'])->name('users.type.access');
 
         /* USERS */
         Route::get('/users-list',[UsersController::class,'users_list_data'])->name('users.list');
@@ -69,6 +67,8 @@ Route::group(['middleware' => 'islogged'], function () {
             Route::put('/users-list-unlock',[UsersController::class,'users_list_unlock'])->name('users.list.unlock');
 
             Route::put('/users-list-reset',[UsersController::class,'users_list_reset'])->name('users.list.reset');
+
+            Route::put('/users-list-access',[UsersController::class,'users_list_access_edit'])->name('users.list.access');
 
 
 });

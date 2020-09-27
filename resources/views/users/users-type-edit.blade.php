@@ -5,7 +5,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
         <div class="modal-header bg-lightblue">
-            <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-user-plus"></i> Edit User Type</h5>
+            <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-user-edit"></i> Edit User Type</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
             </button>
@@ -32,14 +32,6 @@
 
         var frm = $('#users-type-edit')
 
-        $.each(frm.serializeArray(), function (a, b) {
-            if(b.value == '') {
-                swal("Edit User Failed","Please fill all fields to continue","error")
-                return
-            }
-        });
-
-
         let btn = $(this)
         btn.html(`
             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
@@ -47,7 +39,19 @@
         `)
         btn.addClass('disabled')
 
+        let fail = false
 
+        $.each(frm.serializeArray(), function (a, b) {
+            if(b.value == '') {
+                swal("Edit User Failed","Please fill all fields to continue","error")
+                fail = true
+                btn.html("Confirm")
+                btn.removeClass('disabled')
+                return
+            }
+        });
+
+        if(fail) return
 
         $.ajax({
             type: "put",

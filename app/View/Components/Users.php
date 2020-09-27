@@ -16,14 +16,27 @@ class Users extends Component
     public $method;
     public $validator;
     public $data = [];
-    public $access_setup;
+    public $user_access;
     public function __construct($method,$data = [],$validator=0)
     {
         $this->method = $method;
         $this->validator = $validator;
-        $this->data = $data;    
+        $this->data = $data;
 
-        $this->access_setup = json_decode(DB::table('atb_setup')->select('setup_access_data')->first()->setup_access_data,true);
+        $db_access = DB::table('atb_user_access')->get();
+        $user_access = [];
+        foreach($db_access as $access)
+        {
+            if($access->access_parent == 0) {
+                $user_access[$access->access_id] = $access;
+                continue;
+            }
+            $user_access[$access->access_parent]->sub_access[] = $access;
+
+        }
+
+        $this->user_access = $user_access;
+
     }
 
     /**

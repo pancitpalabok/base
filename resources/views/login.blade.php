@@ -20,7 +20,7 @@
                     <form id='login-form'>
                         @csrf
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control username" name="user_email" placeholder="Enter your Email">
+                            <input type="text" class="form-control user_email" name="user_email" placeholder="Enter your Email">
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-user"></span>
@@ -28,7 +28,7 @@
                             </div>
                         </div>
                         <div class="input-group mb-3">
-                            <input type="password" class="form-control password"  name="user_password" placeholder="Enter your Password">
+                            <input type="password" class="form-control user_password"  name="user_password" placeholder="Enter your Password">
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-lock"></span>

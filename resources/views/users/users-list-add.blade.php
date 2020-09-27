@@ -24,6 +24,13 @@
                 <input type="password" name="user_password" class="form-control user_password" placeholder="Enter Password">
                 <label for="">Confirm Password</label>
                 <input type="password" name="user_cpassword" class="form-control user_cpassword" placeholder="Re-enter Password">
+                <label for="">IP Address (Optional)</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-laptop"></i></span>
+                    </div>
+                    <input type="text" class="form-control user_access_ip" name="user_access_ip" placeholder="192.168.0.1" data-inputmask="'alias': 'ip'" data-mask="" im-insert="true">
+                </div>
             </form>
         </div>
         <div class="modal-footer">
@@ -40,19 +47,29 @@
 
         var frm = $('#users-list-add')
 
-        $.each(frm.serializeArray(), function (a, b) {
-            if(b.value == '') {
-                swal("Add User Failed","Please fill all fields to continue","error")
-                return
-            }
-        });
-
         let btn = $(this)
         btn.html(`
             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             Loading...
         `)
         btn.addClass('disabled')
+
+        let fail = false
+
+
+        $.each(frm.serializeArray(), function (a, b) {
+            if(b.name != 'user_access_ip') {
+                if(b.value == '') {
+                    swal("Add User Failed","Please fill all fields to continue","error")
+                    fail = true
+                    btn.html("Confirm")
+                    btn.removeClass('disabled')
+                    return
+                }
+            }
+        });
+
+        if(fail) return
 
         $.post("{!! route('users.list.add') !!}", frm.serialize(),
             function (data, textStatus, jqXHR) {
