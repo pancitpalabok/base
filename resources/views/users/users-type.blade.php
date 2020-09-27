@@ -22,15 +22,24 @@
         </div>
     </div>
     <div class="card-footer">
-        <x-users
-            method="type-add"
-        ></x-users>
-        <x-users
-            method="type-edit"
-        ></x-users>
-        <x-users
-            method="type-access"
-        ></x-users>
+
+        @if (in_array(12,session()->get('user_access')))
+            <x-users
+                method="type-add"
+            ></x-users>
+        @endif
+
+        @if (in_array(14,session()->get('user_access')))
+            <x-users
+                method="type-edit"
+            ></x-users>
+        @endif
+
+        @if (in_array(18,session()->get('user_access')))
+            <x-users
+                method="type-access"
+            ></x-users>
+        @endif
     </div>
 </div>
 <script>

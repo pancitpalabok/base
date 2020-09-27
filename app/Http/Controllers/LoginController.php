@@ -73,10 +73,17 @@ class LoginController extends Controller
 
 
         /* Success Login */
+        $user_access = explode(',',$user_info->user_access);
+
+        $permisions = DB::table('atb_user_access')
+                        ->whereIn('access_id',$user_access)->get();
+
+
 
         session([
             'user_data'=>$user_info,
-            'user_access'=>explode(',',$user_info->user_access),
+            'user_access'=>$user_access,
+            'user_permisions'=>$permisions
         ]);
 
         return [

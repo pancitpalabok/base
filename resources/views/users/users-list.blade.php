@@ -22,15 +22,22 @@
         </div>
     </div>
     <div class="card-footer">
-        <x-users
-            method="list-add"
-        ></x-users>
-        <x-users
-            method="list-edit"
-        ></x-users>
-        <x-users
-            method="list-access"
-        ></x-users>
+
+        @if (in_array(11,session()->get('user_access')))
+            <x-users
+                method="list-add"
+            ></x-users>
+        @endif
+        @if (in_array(13,session()->get('user_access')))
+            <x-users
+                method="list-edit"
+            ></x-users>
+        @endif
+        @if (in_array(17,session()->get('user_access')))
+            <x-users
+                method="list-access"
+            ></x-users>
+        @endif
     </div>
 </div>
 <script>
@@ -201,6 +208,7 @@
         let data = tr.parents('tr')
         var modal = $('#mod-users-list-access')
         modal.modal('show')
+        modal.find('input:checkbox').prop('checked',false)
         modal.find('.user_email').html(data.data('user_email'))
         modal.find('.user_id').val(data.data('user_id'))
 
