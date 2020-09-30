@@ -28,7 +28,7 @@
             load_page()
         })
 
-        function load_page(url = "{!! route('dashboard.index') !!}")
+        function load_page(url = "{!! in_array(1,session()->get('user_access')) ? route('dashboard.index') : route('profile.index') !!}")
         {
             var content = $('.content-wrapper')
             content.html("")
