@@ -1,4 +1,4 @@
-<div class="card card-success">
+<div class="card">
     <div class="card-header bg-lightblue">
         <h3 class="card-title">User Type</h3>
         <div class="card-tools">

@@ -1,6 +1,4 @@
-<!-- Button trigger modal -->
 
-  <!-- Modal -->
 <div class="modal fade users-list-edit" id="mod-user-list-edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">

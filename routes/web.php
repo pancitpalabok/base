@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MasterListController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StartupController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
@@ -72,8 +73,26 @@ Route::group(['middleware' => 'islogged'], function () {
             Route::put('/users-list-access',[UsersController::class,'users_list_access_edit'])->name('users.list.access');
 
 
-    /* MASTER LIST */
+    /* MASTER  CONTROLLER */
     Route::get('/master',[MasterListController::class,'index'])->name('master.index');
+
+        /** MASTER TYPE */
+        Route::get('/master-type',[MasterListController::class,'master_type_data'])->name('master.type.data');
+
+            /** MASTER TYPE ACTION */
+            Route::post('/master-type',[MasterListController::class,'master_type_add'])->name('master.type.add');
+
+        /** MASTER LIST*/
+        Route::get('/maser-list',[MasterListController::class,'master_list_data'])->name('master.list.data');
+
+            /** MASTER LIST ACTION */
+            Route::post('/master-list',[MasterListController::class,'master_list_add'])->name('master.list.add');
+
+            Route::delete('/master-list',[MasterListController::class,'master_list_delete'])->name('master.list.delete');
+
+
+    /* PROFILE CONTROLLER */
+    Route::get('/profile',[ProfileController::class,'index'])->name('profile.index');
 
 
 
