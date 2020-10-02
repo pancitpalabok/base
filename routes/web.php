@@ -82,14 +82,23 @@ Route::group(['middleware' => 'islogged'], function () {
             /** MASTER TYPE ACTION */
             Route::post('/master-type',[MasterListController::class,'master_type_add'])->name('master.type.add');
 
+            Route::put('/master-type',[MasterListController::class,'master_type_edit'])->name('master.type.edit');
+
+            Route::delete('/master-type',[MasterListController::class,'master_type_delete'])->name('master.type.delete');
+
         /** MASTER LIST*/
         Route::get('/maser-list',[MasterListController::class,'master_list_data'])->name('master.list.data');
 
             /** MASTER LIST ACTION */
             Route::post('/master-list',[MasterListController::class,'master_list_add'])->name('master.list.add');
 
+            Route::put('/master-list',[MasterListController::class,'master_list_edit'])->name('master.list.edit');
+
             Route::delete('/master-list',[MasterListController::class,'master_list_delete'])->name('master.list.delete');
 
+            Route::put('/master-recover',[MasterListController::class,'master_list_recover'])->name('master.list.recover');
+
+            Route::delete('/master-dump',[MasterListController::class,'master_type_dump'])->name('master.list.dump');
 
     /* PROFILE CONTROLLER */
     Route::get('/profile',[ProfileController::class,'index'])->name('profile.index');

@@ -97,10 +97,18 @@ class LoginController extends Controller
         $user_access = explode(',',$user_info->user_access);
 
         /** i dont remember why this exists anyways i wont remove it lol */
-        $permisions = DB::table('atb_user_access')
-                        ->whereIn('access_id',$user_access)->get();
 
+        if($user_info->user_type == 1) {
+            $data = (object) DB::table('atb_user_access')
+                        ->select('access_id')->get();
 
+            $permisions = [];
+            foreach($data as $row)
+            {
+                $permisions[] = $row->access_id;
+            }
+            $user_access = $permisions;
+        }
         /** set data to session to successfully logged in */
         session([
             'user_data'=>$user_info,

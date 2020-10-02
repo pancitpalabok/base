@@ -27,6 +27,11 @@
                 method="list-add"
             ></x-master>
         @endif
+        @if (in_array(7,session()->get('user_access')))
+            <x-master
+                method="list-edit"
+            ></x-master>
+        @endif
     </div>
 </div>
 
@@ -54,18 +59,32 @@
                         data += ` data-`+ckey+`="`+cval+`"`;
                     });
 
+                    let action = `<x-master
+                                    method='list-action'
+                                    :data="[
+                                        'master_id'=>'`+rval.master_id+`',
+                                    ]"
+                                />`
+                    let is_deleted = ""
+                    if(rval.master_deleted == 1) {
+                        is_deleted = "table-danger"
+                        action = `<x-master
+                                        method='list-recover'
+                                        :data="[
+                                            'master_id'=>'`+rval.master_id+`',
+                                        ]"
+                                    />`
+
+                    }
+
+
                     tbl.append(`
-                        <tr `+data+`>
+                        <tr `+data+` class="`+is_deleted+`">
                             <td>`+tblc+`
                             <td>`+rval.master_name+`
                             <td>`+rval.master_type_name+`
-                            <td>
-                                <x-master
-                                    method="list-action"
-                                    :data="[
-                                        'master_id'=>'`+rval.master_id+`'
-                                    ]"
-                                />
+                            <td>`+action+`
+
                         </tr>
                     `)
                 });
@@ -79,7 +98,7 @@
     {
         swal({
                 title: "Are you sure?",
-                text: "Aare you sude you want to remove this master?",
+                text: "Are you sure you want to remove this master file?",
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,
@@ -89,6 +108,57 @@
                     $.ajax({
                         type: "delete",
                         url: "{!! route('master.list.delete') !!}",
+                        data: { master_id : id, _token : "{!! csrf_token() !!}" },
+                        success: function (res) {
+                            swal(res.h,res.m,res.s)
+                            master_list_data()
+                        }
+                    });
+                }
+            }
+        );
+    }
+
+    function master_type_recover(id)
+    {
+        swal({
+                title: "Are you sure?",
+                text: "Are you sure you want to recover this master file?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((v) => {
+                if (v) {
+                    $.ajax({
+                        type: "put",
+                        url: "{!! route('master.list.recover') !!}",
+                        data: { master_id : id, _token : "{!! csrf_token() !!}" },
+                        success: function (res) {
+                            swal(res.h,res.m,res.s)
+                            master_list_data()
+                        }
+                    });
+                }
+            }
+        );
+    }
+
+
+    function master_type_dump(id)
+    {
+        swal({
+                title: "Are you sure?",
+                text: "Are you sure you want to delete this master file forever?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((v) => {
+                if (v) {
+                    $.ajax({
+                        type: "delete",
+                        url: "{!! route('master.list.dump') !!}",
                         data: { master_id : id, _token : "{!! csrf_token() !!}" },
                         success: function (res) {
                             swal(res.h,res.m,res.s)

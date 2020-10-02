@@ -23,6 +23,10 @@
         @if (in_array(6,session()->get('user_access')))
             <x-master method="type-add"></x-master>
         @endif
+
+        @if (in_array(8,session()->get('user_access')))
+            <x-master method="type-edit"></x-master>
+        @endif
     </div>
 </div>
 
@@ -38,7 +42,6 @@
     {
         let list = $('.master-type-data')
 
-        list.html(``)
 
         $('.master_type').find('option').remove()
 
@@ -46,6 +49,7 @@
             type : 'get', url : "{!! route('master.type.data')  !!}"
         }).done(function(res){
             let list_c = 0;
+            list.html(``)
             $.each(res, function (key, val) {
                 list_c+=1;
                 let data = '';
@@ -65,5 +69,33 @@
                 `)
             });
         })
+    }
+
+
+    function master_type_delete(tr)
+    {
+        var data = tr.parents("tr")
+        var master_type = data.data('master_type')
+        var master_type_name = data.data('master_type_name')
+
+
+        swal({
+                title: "Are you sure?",
+                text: "Once deleted, you cannot recover linked master to this master type, you want to continue removing "+master_type_name+"? ",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    $.ajax({
+                        type : 'delete', url : "{!! route('master.type.delete') !!}", data : { master_type : master_type , _token : "{!! csrf_token() !!}" }
+                    }).done(function(res){
+                        swal(res.h,res.m,res.s)
+                        master_type_data()
+                    })
+                }
+            }
+        );
     }
 </script>
