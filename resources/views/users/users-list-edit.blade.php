@@ -50,14 +50,18 @@
 
         var frm = $('#users-list-edit')
 
+        let fail = false
         $.each(frm.serializeArray(), function (a, b) {
             if(b.name != 'user_access_ip') {
                 if(b.value == '') {
                     swal("Edit User Failed","Please fill all fields to continue","error")
+                    fail = true
                     return
                 }
             }
         });
+
+        if(fail) return
 
         let btn = $(this)
         btn.html(`
