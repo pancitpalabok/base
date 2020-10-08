@@ -1,5 +1,9 @@
-<div class="card">
-    <div class="card-header bg-lightblue">
+@php
+    $user_type = Crypt::encryptString("user_type");
+@endphp
+
+<div class="card card-outline card-primary">
+    <div class="card-header ">
         <h3 class="card-title">User Type</h3>
         <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand"></i></button>
@@ -55,7 +59,7 @@
 
 
         /* Add User*/
-        $('.user_type').find('option').remove()
+        $('.user-type').find('option').remove()
 
         $.ajax({
             type: "get",
@@ -70,7 +74,7 @@
                         data    += ` data-`+kcol+`="`+vcol+`"`;
                     });
                         /* Add User*/
-                        $('.user_type').append(new Option(vrow.user_type_name,vrow.user_type))
+                        $('.user-type').append(new Option(vrow.user_type_name,vrow.user_type))
 
                     let disabled = ''
                     let udisabled = 'disabled'
@@ -118,7 +122,7 @@
             .then((willDelete) => {
                 if (willDelete) {
                     $.ajax({
-                        type : 'delete', url : "{!! route('users.type.delete') !!}", data : { user_type : user_type , _token : "{!! csrf_token() !!}" }
+                        type : 'delete', url : "{!! route('users.type.delete') !!}", data : {  {!! $user_type !!} : user_type , _token : "{!! csrf_token() !!}" }
                     }).done(function(res){
                         swal(res.h,res.m,res.s)
                         users_type_data()

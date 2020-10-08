@@ -1,3 +1,6 @@
+@php
+    $user_id = Crypt::encryptString("user_id");
+@endphp
 <style>
     label.sub {
         font-weight:normal !important;
@@ -12,11 +15,11 @@
             <span aria-hidden="true">&times;</span>
             </button>
         </div>
-        <div class="modal-body">
+        <div class="">
 
             <form id="users-list-access" onsubmit="return false">
                 @csrf
-                <input type="hidden" name="user_id" class="user_id">
+                <input type="hidden" name="{{$user_id}}">
                 <table class="table">
                     @foreach($user_access as $access_row=>$access_col)
 
@@ -24,7 +27,11 @@
                             <td>
                                 <div class="col-md-6">
                                     <div class="custom-control custom-switch">
-                                        <input type="checkbox" class="custom-control-input {{ $access_col->access_name }}"  data-id="{{ $access_col->access_id }}"   name="list-{{ $access_col->access_name }}" id="list-{{ $access_col->access_name }}" >
+                                        <input type="checkbox"
+                                            class="custom-control-input {{ $access_col->access_name }}"
+                                            data-id="{{ $access_col->access_id }}"
+                                            name="{{ Crypt::encryptString('list-'.$access_col->access_name) }}"
+                                            id="list-{{ $access_col->access_name }}" >
                                         <label class="custom-control-label" for="list-{{ $access_col->access_name }}">{{ $access_col->access_title }}</label>
                                     </div>
                                 </div>
@@ -38,7 +45,11 @@
                                         @foreach($access_col->sub_access as $sub_access)
                                             <div class="col-md-6 pl-5">
                                                 <div class="custom-control custom-switch">
-                                                    <input type="checkbox" class="custom-control-input {{ $sub_access->access_name }}"  data-id="{{ $sub_access->access_id }}"  name="list-{{ $sub_access->access_name }}" id="list-{{ $sub_access->access_name }}">
+                                                    <input type="checkbox"
+                                                        class="custom-control-input {{ $sub_access->access_name }}"
+                                                        data-id="{{ $sub_access->access_id }}"
+                                                        name="{{ Crypt::encryptString('list-'.$sub_access->access_name) }}"
+                                                        id="list-{{ $sub_access->access_name }}" >
                                                     <label class="sub custom-control-label" for="list-{{ $sub_access->access_name }}">{{ $sub_access->access_title }}</label>
                                                 </div>
                                             </div>
@@ -69,7 +80,7 @@
             modal.modal('show')
             modal.find('input:checkbox').prop('checked',false)
             modal.find('.user_email').html(data.data('user_email'))
-            modal.find('.user_id').val(data.data('user_id'))
+            modal.find('input[name={!!$user_id!!}]').val(data.data('user_id'))
 
             var access = []
 
@@ -123,7 +134,11 @@
                 btn.html("Confirm")
                 btn.removeClass('disabled')
             }
-        });
+        }).fail(function(){
+            swal("Error has occurred!","Please contact your system administrator for assistance regarding this error","error")
+            btn.html("Confirm")
+            btn.removeClass('disabled')
+        })
 
     });
 </script>

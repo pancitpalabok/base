@@ -1,4 +1,6 @@
-
+@php
+    $master_type_name = Crypt::encryptString('master_type_name');
+@endphp
 <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#mod-master-type-add">
     <i class="fas fa-folder-plus"></i> Add Master Type
 </button>
@@ -16,7 +18,7 @@
             <form id="master-type-add" onsubmit="return false">
                 @csrf
                 <label for="">Master Type</label>
-                <input type="text" name="master_type_name" class="form-control master_type_name" placeholder="Enter master type here..">
+                <input type="text" name="{{$master_type_name}}" class="form-control" placeholder="Enter master type here..">
             </form>
         </div>
         <div class="modal-footer">
@@ -66,7 +68,11 @@
                 btn.html("Confirm")
                 btn.removeClass('disabled')
             }
-        )
+        ).fail(function(){
+            swal("Error has occurred!","Please contact your system administrator for assistance regarding this error","error")
+            btn.html("Confirm")
+            btn.removeClass('disabled')
+        })
 
     });
 </script>

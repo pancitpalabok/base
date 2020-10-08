@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -10,6 +12,11 @@ class UsersController extends Controller
 {
     public function index()
     {
+
+        /** validate if user has access to this function */
+        if(!in_array(3,session()->get('user_access')))
+            return abort(403);
+
         return view('users.index');
     }
 
@@ -20,7 +27,12 @@ class UsersController extends Controller
     public function users_type_add(Request $request)
     {
         /** convert array to object */
-        $post = (object) $request->all();
+        $data =  $request->all();
+        $post = (object) decryptRequest($data);
+
+        /** validate if user has access to this function */
+        if(!in_array(12,session()->get('user_access')))
+            return abort(403);
 
         /** validate user type name has input */
         if(in_array($post->user_type_name,[null,'']))
@@ -40,6 +52,11 @@ class UsersController extends Controller
     {
         /** convert array to object */
         $delete = (object) $request->all();
+        $delete = (object) decryptRequest($delete);
+
+        /** validate if user has access to this function */
+        if(!in_array(16,session()->get('user_access')))
+            return abort(403);
 
         /** execute database sp to delete user type
          * @param user_type from ajax request
@@ -52,7 +69,13 @@ class UsersController extends Controller
     public function users_type_edit(Request $request)
     {
         /** convert array to object */
-        $put = (object) $request;
+        $put = $request->all();
+        $put = (object) decryptRequest($put);
+
+
+        /** validate if user has access to this function */
+        if(!in_array(14,session()->get('user_access')))
+            return abort(403);
 
         /** validate user type name as input */
         if(in_array($put->user_type_name,[null,'']))
@@ -74,6 +97,12 @@ class UsersController extends Controller
 
     public function users_type_data()
     {
+
+        /** validate if user has access to this function */
+        if(!in_array(3,session()->get('user_access')))
+            return abort(403);
+
+
         /** get data from database sp for user type data */
         return DB::select("CALL sp_users_type_data()");
     }
@@ -83,6 +112,13 @@ class UsersController extends Controller
     {
         /** convert array request to object */
         $put = (object) $request->all();
+        $put = (object) decryptRequest($put);
+
+
+        /** validate if user has access to this function */
+        if(!in_array(18,session()->get('user_access')))
+            return abort(403);
+
 
         /** set new user_type variable
          * @param user_type from ajax request
@@ -137,20 +173,31 @@ class UsersController extends Controller
         /** convert array request to object */
         $post = (object) $request->all();
 
+        /** validate if user has access to user_list */
+        if(!in_array(3,session()->get('user_access')))
+            return abort(403);
+
         /** assigned user_type to filter what user type to view */
         $user_type = $post->user_type;
-
+        $user_locked = $post->user_locked;
         /** get data from database sp
          * @param user_type assigned at the top and can be '' or null to view all data
          * @param user_id check user logged in to prevent editing it's own access, data and delete
          */
-        return DB::select("CALL sp_users_list_data(?,?)",[$user_type,session()->get('user_data')->user_id]);
+        return DB::select("CALL sp_users_list_data(?,?,?)",[$user_type,session()->get('user_data')->user_id,$user_locked]);
+
     }
 
     public function users_list_access_edit(Request $request)
     {
         /** convert array request to object */
         $put = (object) $request->all();
+        $put = (object) decryptRequest($put);
+
+
+        /** validate if user has access to this function */
+        if(!in_array(17,session()->get('user_access')))
+            return abort(403);
 
         /** assign user id from request data */
         $user_id = $put->user_id;
@@ -194,7 +241,14 @@ class UsersController extends Controller
     public function users_list_add(Request $request)
     {
         /** convert array request to object */
-        $post = (object) $request->all();
+        $data =  $request->all();
+        $post = (object) decryptRequest($data);
+
+
+        /** validate if user has access to this function */
+        if(!in_array(11,session()->get('user_access')))
+            return abort(403);
+
 
         /** get password count */
         $passwordc = strlen($post->user_password);
@@ -229,12 +283,18 @@ class UsersController extends Controller
             ];
 
         /** execute database sp to validate and register new user */
-        $result = DB::select("CALL sp_users_list_add(?,?,?,?,?)",[
-            $post->user_email,
-            $passwordc,
-            $new_password,
-            $post->user_type,
-            $post->user_access_ip,]);
+        $result = DB::select("CALL sp_users_list_add(?,?,?,?,?,?,?,?,?,?)",[
+                $post->user_email,
+                $passwordc,
+                $new_password,
+                $post->user_type,
+                $post->user_access_ip,
+                $post->user_lastname,
+                $post->user_firstname,
+                $post->user_middlename,
+                $post->user_contact,
+                $post->user_address,
+            ]);
         foreach($result as $result);
         return (array) $result;
 
@@ -244,6 +304,13 @@ class UsersController extends Controller
     {
         /* convert array request to object */
         $put = (object) $request->all();
+        $put = (object) decryptRequest($put);
+
+
+        /** validate if user has access to this function */
+        if(!in_array(19,session()->get('user_access')))
+            return abort(403);
+
 
         /** execute database sp to lock user
          * @param user_id selected user to lock
@@ -257,6 +324,13 @@ class UsersController extends Controller
     {
         /** convert array request to object */
         $put = (object) $request->all();
+        $put = (object) decryptRequest($put);
+
+
+        /** validate if user has access to this function */
+        if(!in_array(19,session()->get('user_access')))
+            return abort(403);
+
 
         /** execute database sp to unlock user
          * @param user_id selected user to unlock
@@ -270,6 +344,13 @@ class UsersController extends Controller
     {
         /** convert array request to object */
         $put = (object) $request->all();
+        $put = (object) decryptRequest($put);
+
+
+        /** validate if user has access to this function */
+        if(!in_array(20,session()->get('user_access')))
+            return abort(403);
+
 
         /** convert password from .env file to root directory */
         $new_password = Hash::make(env('SETUP_DEFAULT_PASSWORD'));
@@ -286,7 +367,14 @@ class UsersController extends Controller
     public function users_list_delete(Request $request)
     {
         /** convert array request to object */
-        $delete = (object) $request;
+        $delete = (object) $request->all();
+        $delete = (object) decryptRequest($delete);
+
+
+        /** validate if user has access to this function */
+        if(!in_array(15,session()->get('user_access')))
+            return abort(403);
+
 
         /** execute database sp to update user to deleted and prevent it to display in data list
          * @param user_id update this user tagged as deleted
@@ -299,7 +387,15 @@ class UsersController extends Controller
     public function users_list_edit(Request $request)
     {
         /** convert array request to object */
-        $put = (object) $request;
+        $put = (object) $request->all();
+        $put = (object) decryptRequest($put);
+
+
+
+        /** validate if user has access to this function */
+        if(!in_array(13,session()->get('user_access')))
+            return abort(403);
+
 
         /** validate user access ip has input data */
         if($put->user_access_ip != '') {
@@ -318,7 +414,16 @@ class UsersController extends Controller
          * @param user_type update user type if changed
          * @param user_access_ip update access ip
          */
-        $result = DB::select("CALL sp_users_list_edit(?,?,?)",[$put->user_id,$put->user_type,$put->user_access_ip]);
+        $result = DB::select("CALL sp_users_list_edit(?,?,?,?,?,?,?,?)",[
+            $put->user_id,
+            $put->user_type,
+            $put->user_access_ip,
+            $put->user_lastname,
+            $put->user_firstname,
+            $put->user_middlename,
+            $put->user_contact,
+            $put->user_address
+        ]);
         foreach($result as $result);
         return (array) $result;
     }

@@ -1,3 +1,8 @@
+@php
+    $master_type = Crypt::encryptString("master_type");
+    $master_name = Crypt::encryptString("master_name");
+@endphp
+
 <!-- Button trigger modal -->
 <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#mod-master-list-add">
     <i class="fas fa-file-medical"></i> Add Master
@@ -16,10 +21,10 @@
         <div class="modal-body">
             <form id="master-list-add">
                 @csrf
-                <label for="">Master Type</label>
-                <select name="master_type" class="form-control master_type"></select>
-                <label for="">Name</label>
-                <input type="text" name="master_name" class="form-control master_name" aria-describedby="emailHelp" placeholder="Enter master name">
+                <label for="">Master Type  </label> <small class='float-right text-danger  mt-2' >* required</small>
+                <select name="{{$master_type}}" class="form-control master_type"></select>
+                <label for="">Name </label> <small class='float-right text-danger  mt-2' >* required</small>
+                <input type="text" name="{{$master_name}}" class="form-control" aria-describedby="emailHelp" placeholder="Enter master name">
             </form>
         </div>
         <div class="modal-footer">
@@ -70,6 +75,10 @@
                 btn.html("Confirm")
                 btn.removeClass('disabled')
             }
-        );
+        ).fail(function(){
+            swal("Error has occurred!","Please contact your system administrator for assistance regarding this error","error")
+            btn.html("Confirm")
+            btn.removeClass('disabled')
+        })
     });
 </script>

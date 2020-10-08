@@ -9,6 +9,11 @@ class MasterListController extends Controller
 {
     public function index()
     {
+
+        /** validate if user has access to this function */
+        if(!in_array(2,session()->get('user_access')))
+            return abort(403);
+
         return view("master.index");
     }
 
@@ -27,6 +32,11 @@ class MasterListController extends Controller
 
     public function master_type_data()
     {
+
+        /** validate if user has access to this function */
+        if(!in_array(2,session()->get('user_access')))
+            return abort(403);
+
         /** get data from database  */
         return DB::select("CALL sp_master_type_data()");
     }
@@ -35,6 +45,13 @@ class MasterListController extends Controller
     {
         /** convert array to object */
         $post =  (object) $request->all();
+        $post = (object) decryptRequest($post);
+
+
+        /** validate if user has access to this function */
+        if(!in_array(6,session()->get('user_access')))
+            return abort(403);
+
 
         /** check master type name as input */
         if(in_array($post->master_type_name,['',null]))
@@ -53,6 +70,12 @@ class MasterListController extends Controller
     public function master_type_edit(Request $request)
     {
         $put = (object) $request->all();
+        $put = (object) decryptRequest($put);
+
+
+        /** validate if user has access to this function */
+        if(!in_array(8,session()->get('user_access')))
+            return abort(403);
 
         if(in_array($put->master_type_name,['',null]))
             return [
@@ -80,7 +103,14 @@ class MasterListController extends Controller
     public function master_type_delete(Request $request)
     {
         /** convert array to object */
-        $delete = (Object) $request;
+        $delete = (Object) $request->all();
+        $delete = (object) decryptRequest($delete);
+
+
+        /** validate if user has access to this function */
+        if(!in_array(10,session()->get('user_access')))
+            return abort(403);
+
 
         if($delete->master_type == 0)
             return [
@@ -115,10 +145,26 @@ class MasterListController extends Controller
         /** convert array request to object */
         $get = (object) $request->all();
 
+
+        /** validate if user has access to this function */
+        if(!in_array(2,session()->get('user_access')))
+            return abort(403);
+
+
         /** execute database sp to get master list
          * @param in_master_type INT
          */
         return DB::select("CALL sp_master_list_data(?)",[$get->master_type]);
+    }
+
+    public function master_list_deleted()
+    {
+
+        /** validate if user has access to this function */
+        if(!in_array(2,session()->get('user_access')))
+            return abort(403);
+
+        return DB::select("CALL sp_master_list_deleted()");
     }
 
 
@@ -126,6 +172,12 @@ class MasterListController extends Controller
     {
         /** convert data from array to object */
         $post = (object) $request->all();
+        $post = (object) decryptRequest($post);
+
+
+        /** validate if user has access to this function */
+        if(!in_array(5,session()->get('user_access')))
+            return abort(403);
 
 
         /** check if master type is selected */
@@ -158,7 +210,14 @@ class MasterListController extends Controller
     public function master_list_edit(Request $request)
     {
         /** convert array to object */
-        $put = (Object) $request;
+        $put = (Object) $request->all();
+        $put = (object) decryptRequest($put);
+
+
+        /** validate if user has access to this function */
+        if(!in_array(7,session()->get('user_access')))
+            return abort(403);
+
 
         /** validate master name field */
         if(in_array($put->master_name,['',null]))
@@ -193,7 +252,14 @@ class MasterListController extends Controller
     public function master_list_delete(Request $request)
     {
         /** convert array to object */
-        $delete = (Object) $request;
+        $delete = (Object) $request->all();
+        $delete = (object) decryptRequest($delete);
+
+
+        /** validate if user has access to this function */
+        if(!in_array(9,session()->get('user_access')))
+            return abort(403);
+
 
         if($delete->master_id == 0)
             return [
@@ -214,6 +280,13 @@ class MasterListController extends Controller
     {
         /** convert array to object */
         $put = (object) $request->all();
+        $put = (object) decryptRequest($put);
+
+
+        /** validate if user has access to this function */
+        if(!in_array(21,session()->get('user_access')))
+            return abort(403);
+
 
         /** execute database sp to recover master
          * @param in_master_id INT
@@ -227,7 +300,14 @@ class MasterListController extends Controller
     public function master_type_dump(Request $request)
     {
         /** convert array to object */
-        $delete = (Object) $request;
+        $delete = (Object) $request->all();
+        $delete = (object) decryptRequest($delete);
+
+
+        /** validate if user has access to this function */
+        if(!in_array(9,session()->get('user_access')))
+            return abort(403);
+
 
         if($delete->master_id == 0)
             return [

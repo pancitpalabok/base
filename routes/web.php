@@ -100,6 +100,8 @@ Route::group(['middleware' => 'islogged'], function () {
 
             Route::delete('/master-dump',[MasterListController::class,'master_type_dump'])->name('master.list.dump');
 
+            Route::get('/master-deleted',[MasterListController::class,'master_list_deleted'])->name('master.list.deleted');
+
     /* PROFILE CONTROLLER */
     Route::get('/profile',[ProfileController::class,'index'])->name('profile.index');
 
