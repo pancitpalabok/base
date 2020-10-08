@@ -26,7 +26,7 @@
                     ></x-users>
                 @endif
 
-                <button type="button" class="btn btn-tool" onclick="users_list_data(0,1)" title="Locked Users"><i class="fas fa-user-lock"></i></button>
+                <button type="button" class="btn btn-tool" onclick="users_list_data(0,1)" title="Locked Users"><i class="fas fa-lock user-lock"></i></button>
                 <button type="button" class="btn btn-tool" onclick="users_list_data()"><i class="fas fa-redo"></i></button>
                 <button type="button" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand"></i></button>
 
@@ -61,6 +61,7 @@
         users_list_data()
     })
 
+
     $('.user_search').keyup(delay(function (e) {
         users_list_data(0,0,$(this).val())
     },300));
@@ -70,6 +71,11 @@
         var tbl = $('.data-users-list')
         var rcount = 0;
         var output = "";
+
+        $('.user-lock').removeClass('text-danger')
+        if(user_locked == 1)
+            $('.user-lock').addClass('text-danger')
+
 
 
         $.ajax({
