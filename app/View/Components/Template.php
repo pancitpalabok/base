@@ -23,6 +23,6 @@ class Template extends Component
      */
     public function render()
     {
-        return view('components.template');
+        return view('blocks.template');
     }
 }

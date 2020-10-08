@@ -14,6 +14,10 @@ class MasterListController extends Controller
         if(!in_array(2,session()->get('user_access')))
             return abort(403);
 
+
+
+
+
         return view("master.index");
     }
 
@@ -154,7 +158,7 @@ class MasterListController extends Controller
         /** execute database sp to get master list
          * @param in_master_type INT
          */
-        return DB::select("CALL sp_master_list_data(?)",[$get->master_type]);
+        return DB::select("CALL sp_master_list_data(?,'$get->master_search')",[$get->master_type]);
     }
 
     public function master_list_deleted()

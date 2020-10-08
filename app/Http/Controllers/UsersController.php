@@ -17,6 +17,10 @@ class UsersController extends Controller
         if(!in_array(3,session()->get('user_access')))
             return abort(403);
 
+
+
+
+
         return view('users.index');
     }
 
@@ -180,11 +184,18 @@ class UsersController extends Controller
         /** assigned user_type to filter what user type to view */
         $user_type = $post->user_type;
         $user_locked = $post->user_locked;
+        $user_search = $post->user_search;
+
         /** get data from database sp
          * @param user_type assigned at the top and can be '' or null to view all data
          * @param user_id check user logged in to prevent editing it's own access, data and delete
          */
-        return DB::select("CALL sp_users_list_data(?,?,?)",[$user_type,session()->get('user_data')->user_id,$user_locked]);
+        $data = DB::select("CALL sp_users_list_data(?,?,?,'$user_search')",[
+            $user_type,
+            session()->get('user_data')->user_id,
+            $user_locked
+        ]);
+        return $data;
 
     }
 

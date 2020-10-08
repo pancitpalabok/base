@@ -2,10 +2,28 @@
     $user_type = Crypt::encryptString("user_type");
 @endphp
 
-<div class="card card-outline card-primary">
+<div class="card card-outline card-orange">
     <div class="card-header ">
         <h3 class="card-title">User Type</h3>
         <div class="card-tools">
+
+            @if (in_array(14,session()->get('user_access')))
+                <x-users
+                    method="type-edit"
+                ></x-users>
+            @endif
+
+            @if (in_array(18,session()->get('user_access')))
+                <x-users
+                    method="type-access"
+                ></x-users>
+            @endif
+
+            @if (in_array(12,session()->get('user_access')))
+                <x-users
+                    method="type-add"
+                ></x-users>
+            @endif
             <button type="button" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand"></i></button>
         </div>
     </div>
@@ -24,26 +42,6 @@
                 </tbody>
             </table>
         </div>
-    </div>
-    <div class="card-footer">
-
-        @if (in_array(12,session()->get('user_access')))
-            <x-users
-                method="type-add"
-            ></x-users>
-        @endif
-
-        @if (in_array(14,session()->get('user_access')))
-            <x-users
-                method="type-edit"
-            ></x-users>
-        @endif
-
-        @if (in_array(18,session()->get('user_access')))
-            <x-users
-                method="type-access"
-            ></x-users>
-        @endif
     </div>
 </div>
 <script>

@@ -2,10 +2,17 @@
     $master_type = Crypt::encryptString("master_type");
 @endphp
 
-<div class="card">
-    <div class="card-header bg-lightblue">
+<div class="card  card-outline card-orange">
+    <div class="card-header">
         <h3 class="card-title">Master Type</h3>
         <div class="card-tools">
+
+            @if (in_array(8,session()->get('user_access')))
+                <x-master method="type-edit"></x-master>
+            @endif
+            @if (in_array(6,session()->get('user_access')))
+                <x-master method="type-add"></x-master>
+            @endif
             <button type="button" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand"></i></button>
         </div>
     </div>
@@ -23,23 +30,10 @@
             </table>
         </div>
     </div>
-    <div class="card-footer">
-        @if (in_array(6,session()->get('user_access')))
-            <x-master method="type-add"></x-master>
-        @endif
-
-        @if (in_array(8,session()->get('user_access')))
-            <x-master method="type-edit"></x-master>
-        @endif
-    </div>
 </div>
 
 <script>
 
-
-    $(function(){
-        master_type_data()
-    })
 
 
     function master_type_data()
@@ -72,7 +66,7 @@
                 list.append(`
                     <tr `+data+`>
                         <td onclick="master_list_data(`+val.master_type+`)">`+list_c+`.
-                        <td onclick="master_list_data($(this))">`+val.master_type_name+`
+                        <td onclick="master_list_data(`+val.master_type+`)">`+val.master_type_name+`
                         <td><x-master
                                 method="type-action"
                                 :data="[
