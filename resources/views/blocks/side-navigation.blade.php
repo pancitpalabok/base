@@ -4,7 +4,7 @@
 @endphp
 
 
-<aside class="main-sidebar elevation-4 sidebar-light-navy">
+<aside class="main-sidebar elevation-4 sidebar-light-orange">
     <!-- Brand Logo -->
     <a href="{{ route('startup.index') }}" class="brand-link">
       <img src="{{ url("/adminlte/dist/img/AdminLTELogo.png") }}" alt="AdminLTE Logo" class="brand-image img img-circle elevation-3"

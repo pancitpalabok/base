@@ -7,7 +7,7 @@
         <title>{{ env('APP_NAME') }}</title>
         <x-template  />
     </head>
-    <body class="sidebar-mini layout-fixed accent-navy" style="height: auto;">
+    <body class="sidebar-mini layout-fixed accent-orange" style="height: auto;">
         <div class="wrapper">
             <x-navigation type="top" />
             <x-navigation
@@ -48,5 +48,16 @@
             $('.nav-link').removeClass('active')
             $(this).addClass('active')
         })
+
+        function delay(callback, ms) {
+            var timer = 0;
+            return function() {
+                var context = this, args = arguments;
+                clearTimeout(timer);
+                timer = setTimeout(function () {
+                callback.apply(context, args);
+                }, ms || 0);
+            };
+        }
     </script>
 </html>

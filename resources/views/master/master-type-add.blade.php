@@ -1,8 +1,8 @@
 @php
     $master_type_name = Crypt::encryptString('master_type_name');
 @endphp
-<button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#mod-master-type-add">
-    <i class="fas fa-folder-plus"></i> Add Master Type
+<button type="button" class="btn btn-sm btn-tool text-primary" data-toggle="modal" data-target="#mod-master-type-add">
+    <i class="fas fa-folder-plus"></i> Add
 </button>
 
 <div class="modal fade master-type-add" id="mod-master-type-add" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

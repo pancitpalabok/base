@@ -14,8 +14,8 @@
 @endphp
 
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#mod-user-list-add">
-    <i class="fas fa-user-plus"></i> Add User
+<button type="button" class="btn btn-tool text-primary" data-toggle="modal" data-target="#mod-user-list-add">
+    <i class="fas fa-user-plus"></i> Add
 </button>
 
   <!-- Modal -->

@@ -4,8 +4,8 @@
 @endphp
 
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#mod-master-list-add">
-    <i class="fas fa-file-medical"></i> Add Master
+<button type="button" class="btn btn-sm btn-tool text-primary" data-toggle="modal" data-target="#mod-master-list-add">
+    <i class="fas fa-file-medical"> </i>  Add
 </button>
 
   <!-- Modal -->

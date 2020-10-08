@@ -18,3 +18,10 @@
         </div>
     </div>
 </section>
+<script>
+    $(function(){
+        master_type_data()
+        master_list_data()
+    })
+
+</script>

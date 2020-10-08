@@ -1,13 +1,33 @@
 @php
     $master_id = Crypt::encryptString('master_id');
 @endphp
-<div class="card">
-    <div class="card-header bg-lightblue">
+<div class="card card-outline card-orange">
+    <div class="card-header">
         <h3 class="card-title">Master List</h3>
         <div class="card-tools">
-            <button type="button" class="btn btn-tool" onclick="master_list_deleted()" title="Deleted List"><i class="fas fa-trash-restore-alt"></i></button>
-            <button type="button" class="btn btn-tool" onclick="master_list_data()" title="Reload List"><i class="fas fa-redo"></i></button>
-            <button type="button" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand"></i></button>
+
+            <div class="input-group">
+                @if (in_array(5,session()->get('user_access')))
+                    <x-master
+                        method="list-add"
+                    ></x-master>
+                @endif
+                @if (in_array(7,session()->get('user_access')))
+                    <x-master
+                        method="list-edit"
+                    ></x-master>
+                @endif
+                <button type="button" class="btn btn-tool" onclick="master_list_deleted()" title="Deleted List"><i class="fas fa-trash-restore-alt"></i></button>
+                <button type="button" class="btn btn-tool" onclick="master_list_data()" title="Reload List"><i class="fas fa-redo"></i></button>
+                <button type="button" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand"></i></button>
+
+                <input type="text" class="form-control form-control-sm master_search" placeholder="Search master">
+                <div class="input-group-append">
+                    <button class="btn btn-secondary btn-xs">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
     <div class="card-body" style="display: block;">
@@ -25,33 +45,19 @@
             </table>
         </div>
     </div>
-    <div class="card-footer">
-        @if (in_array(5,session()->get('user_access')))
-            <x-master
-                method="list-add"
-            ></x-master>
-        @endif
-        @if (in_array(7,session()->get('user_access')))
-            <x-master
-                method="list-edit"
-            ></x-master>
-        @endif
-    </div>
 </div>
 
 <script>
-    $(function(){
-        master_list_data()
-    })
+    $('.master_search').keyup(delay(function(){
+        master_list_data(0,$(this).val())
+    },300));
 
-
-
-    function master_list_data(master_type = 0)
+    function master_list_data(master_type = 0, master_search = '')
     {
         var tbl = $('.master-list-data')
         var tblc = 0;
 
-        $.get("{!! route('master.list.data') !!}", { master_type : master_type },
+        $.get("{!! route('master.list.data') !!}", { master_type : master_type, master_search : master_search },
             function (res) {
                 tbl.html("")
                 $.each(res, function (key, rval) {

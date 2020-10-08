@@ -2,16 +2,45 @@
     $user_id = Crypt::encryptString("user_id");
 
 @endphp
-<div class="card card-outline card-primary">
+<div class="card card-outline card-orange">
     <div class="card-header">
         <h3 class="card-title">User List</h3>
         <div class="card-tools">
-            <button type="button" class="btn btn-tool" onclick="users_list_data(0,1)" title="Locked Users"><i class="fas fa-user-lock"></i></button>
-            <button type="button" class="btn btn-tool" onclick="users_list_data()"><i class="fas fa-redo"></i></button>
-            <button type="button" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand"></i></button>
+
+            <div class="input-group">
+
+                @if (in_array(13,session()->get('user_access')))
+                    <x-users
+                        method="list-edit"
+                    ></x-users>
+                @endif
+                @if (in_array(17,session()->get('user_access')))
+                    <x-users
+                        method="list-access"
+                    ></x-users>
+                @endif
+
+                @if (in_array(11,session()->get('user_access')))
+                    <x-users
+                        method="list-add"
+                    ></x-users>
+                @endif
+
+                <button type="button" class="btn btn-tool" onclick="users_list_data(0,1)" title="Locked Users"><i class="fas fa-user-lock"></i></button>
+                <button type="button" class="btn btn-tool" onclick="users_list_data()"><i class="fas fa-redo"></i></button>
+                <button type="button" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand"></i></button>
+
+                <input type="text" class="form-control form-control-sm user_search" placeholder="Search user">
+                <div class="input-group-append">
+                    <button class="btn btn-secondary btn-xs">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+
+            </div>
         </div>
     </div>
-    <div class="card-body users-content" style="display: block;">
+    <div class="card-body h-100 users-content" style="display: block;">
         <div class="table-responsive">
             <table class="table">
                 <thead>
@@ -26,31 +55,17 @@
             </table>
         </div>
     </div>
-    <div class="card-footer">
-
-        @if (in_array(11,session()->get('user_access')))
-            <x-users
-                method="list-add"
-            ></x-users>
-        @endif
-        @if (in_array(13,session()->get('user_access')))
-            <x-users
-                method="list-edit"
-            ></x-users>
-        @endif
-        @if (in_array(17,session()->get('user_access')))
-            <x-users
-                method="list-access"
-            ></x-users>
-        @endif
-    </div>
 </div>
 <script>
     $(function(){
         users_list_data()
     })
 
-    function users_list_data(user_type = 0, user_locked = 0)
+    $('.user_search').keyup(delay(function (e) {
+        users_list_data(0,0,$(this).val())
+    },300));
+
+    function users_list_data(user_type = 0, user_locked = 0, user_search = '')
     {
         var tbl = $('.data-users-list')
         var rcount = 0;
@@ -60,7 +75,7 @@
         $.ajax({
             type: "get",
             url: "{!! route('users.list') !!}",
-            data : { user_type : user_type , user_locked : user_locked },
+            data : { user_type : user_type , user_locked : user_locked , user_search : user_search },
             success: function (response) {
                 tbl.html('')
                 $.each(response, function (krow,vrow) {
