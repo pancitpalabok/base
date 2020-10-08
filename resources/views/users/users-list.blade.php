@@ -1,7 +1,12 @@
-<div class="card ">
-    <div class="card-header bg-lightblue">
+@php
+    $user_id = Crypt::encryptString("user_id");
+
+@endphp
+<div class="card card-outline card-primary">
+    <div class="card-header">
         <h3 class="card-title">User List</h3>
         <div class="card-tools">
+            <button type="button" class="btn btn-tool" onclick="users_list_data(0,1)" title="Locked Users"><i class="fas fa-user-lock"></i></button>
             <button type="button" class="btn btn-tool" onclick="users_list_data()"><i class="fas fa-redo"></i></button>
             <button type="button" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand"></i></button>
         </div>
@@ -45,7 +50,7 @@
         users_list_data()
     })
 
-    function users_list_data(user_type = 0)
+    function users_list_data(user_type = 0, user_locked = 0)
     {
         var tbl = $('.data-users-list')
         var rcount = 0;
@@ -55,7 +60,7 @@
         $.ajax({
             type: "get",
             url: "{!! route('users.list') !!}",
-            data : { user_type : user_type},
+            data : { user_type : user_type , user_locked : user_locked },
             success: function (response) {
                 tbl.html('')
                 $.each(response, function (krow,vrow) {
@@ -105,7 +110,7 @@
                     `)
                 })
             }
-        });
+        })
     }
 
     function users_list_lock(id,locked)
@@ -130,12 +135,16 @@
                     $.ajax({
                         type: "put",
                         url: url,
-                        data: { user_id : id, _token : "{!! csrf_token() !!}" },
+                        data: { {!! $user_id !!} : id, _token : "{!! csrf_token() !!}" },
                         success: function (res) {
                             swal(res.h,res.m,res.s)
                             users_list_data()
                         }
-                    });
+                    }).fail(function(){
+                        swal("Error has occurred!","Please contact your system administrator for assistance regarding this error","error")
+                        btn.html("Confirm")
+                        btn.removeClass('disabled')
+                    })
                 }
             }
         );
@@ -155,12 +164,16 @@
                     $.ajax({
                         type: "put",
                         url: "{!! route('users.list.reset') !!}",
-                        data: { user_id : id, _token : "{!! csrf_token() !!}" },
+                        data: { {!! $user_id !!} : id, _token : "{!! csrf_token() !!}" },
                         success: function (res) {
                             swal(res.h,res.m,res.s)
                             users_list_data()
                         }
-                    });
+                    }).fail(function(){
+                        swal("Error has occurred!","Please contact your system administrator for assistance regarding this error","error")
+                        btn.html("Confirm")
+                        btn.removeClass('disabled')
+                    })
                 }
             }
         );
@@ -170,7 +183,7 @@
     {
         swal({
                 title: "Are you sure?",
-                text: "Delete User, are you sude you want to remove this user?",
+                text: "Delete User, are you sude you want to remove this user? All the data related to this user will be removed.",
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,
@@ -180,17 +193,22 @@
                     $.ajax({
                         type: "delete",
                         url: "{!! route('users.list.delete') !!}",
-                        data: { user_id : id, _token : "{!! csrf_token() !!}" },
+                        data: { {!! $user_id !!} : id, _token : "{!! csrf_token() !!}" },
                         success: function (res) {
                             swal(res.h,res.m,res.s)
                             users_list_data()
                             users_type_data()
                         }
-                    });
+                    }).fail(function(){
+                        swal("Error has occurred!","Please contact your system administrator for assistance regarding this error","error")
+                        btn.html("Confirm")
+                        btn.removeClass('disabled')
+                    })
                 }
             }
         );
     }
+
 
 
 </script>

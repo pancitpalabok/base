@@ -1,3 +1,8 @@
+@php
+
+    $user_type_name = Crypt::encryptString("user_type_name");
+@endphp
+
 <!-- Button trigger modal -->
 <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#mod-user-type-add">
     <i class="fas fa-user-shield"></i> Add User Type
@@ -17,7 +22,7 @@
             <form id="users-type-add" onsubmit="return false">
                 @csrf
                 <label for="">User Type</label>
-                <input type="text" name="user_type_name" class="form-control user_type_name" placeholder="Enter user type here..">
+                <input type="text" name="{{$user_type_name}}" class="form-control" placeholder="Enter user type here..">
             </form>
         </div>
         <div class="modal-footer">
@@ -54,7 +59,6 @@
         })
 
         if(fail) return
-
 
         $.post("{!! route('users.type.add') !!}", frm.serialize(),
             function (data, textStatus, jqXHR) {

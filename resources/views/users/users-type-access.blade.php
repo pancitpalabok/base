@@ -1,3 +1,11 @@
+
+@php
+$user_type = Crypt::encryptString("user_type");
+$user_type_name = Crypt::encryptString("user_type_name");
+
+
+@endphp
+
 <style>
     label.sub {
         font-weight:normal !important;
@@ -7,7 +15,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
         <div class="modal-header bg-lightblue">
-            <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-users-cog"></i> Edit User Type Access | <span class="user_type_name"></span></h5>
+            <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-users-cog"></i> Edit User Type Access | <span class="{{$user_type_name}}"></span></h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
             </button>
@@ -15,7 +23,7 @@
         <div class="modal-body">
             <form id="users-type-access" onsubmit="return false">
                 @csrf
-                <input type="hidden" name="user_type" class="user_type">
+                <input type="hidden" name="{{$user_type}}" class="{{$user_type}}">
                 <table class="table">
                     @foreach($user_access as $access_row=>$access_col)
 
@@ -23,7 +31,11 @@
                             <td>
                                 <div class="col-md-6">
                                     <div class="custom-control custom-switch">
-                                        <input type="checkbox" class="custom-control-input {{ $access_col->access_name }}"  data-id="{{ $access_col->access_id }}"   name="type-{{ $access_col->access_name }}" id="type-{{ $access_col->access_name }}" >
+                                        <input type="checkbox"
+                                            class="custom-control-input {{ $access_col->access_name }}"
+                                            data-id="{{ $access_col->access_id }}"
+                                            name="{{ Crypt::encryptString('type-'.$access_col->access_name) }}"
+                                            id="type-{{ $access_col->access_name }}" >
                                         <label class="custom-control-label" for="type-{{ $access_col->access_name }}">{{ $access_col->access_title }}</label>
                                     </div>
                                 </div>
@@ -37,7 +49,11 @@
                                         @foreach($access_col->sub_access as $sub_access)
                                             <div class="col-md-6 pl-5">
                                                 <div class="custom-control custom-switch">
-                                                    <input type="checkbox" class="custom-control-input {{ $sub_access->access_name }}"  data-id="{{ $sub_access->access_id }}"  name="type-{{ $sub_access->access_name }}" id="type-{{ $sub_access->access_name }}">
+                                                    <input type="checkbox"
+                                                        class="custom-control-input {{ $sub_access->access_name }}"
+                                                        data-id="{{ $sub_access->access_id }}"
+                                                        name="{{ Crypt::encryptString('type-'.$sub_access->access_name) }}"
+                                                        id="type-{{ $sub_access->access_name }}">
                                                     <label class="sub custom-control-label" for="type-{{ $sub_access->access_name }}">{{ $sub_access->access_title }}</label>
                                                 </div>
                                             </div>
@@ -67,8 +83,8 @@
         var modal = $('#mod-user-type-access')
         modal.modal('show')
         modal.find('input:checkbox').prop('checked',false)
-        modal.find('.user_type').val(data.data('user_type'))
-        modal.find('.user_type_name').html(data.data('user_type_name'))
+        modal.find('input[name={!! $user_type !!}]').val(data.data('user_type'))
+        modal.find('.{!! $user_type_name !!}').html(data.data('user_type_name'))
         var access = []
 
 
@@ -127,7 +143,11 @@
                 btn.html("Confirm")
                 btn.removeClass('disabled')
             }
-        });
+        }).fail(function(){
+            swal("Error has occurred!","Please contact your system administrator for assistance regarding this error","error")
+            btn.html("Confirm")
+            btn.removeClass('disabled')
+        })
 
     });
 </script>

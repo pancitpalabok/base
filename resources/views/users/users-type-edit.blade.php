@@ -1,3 +1,7 @@
+@php
+    $user_type_name = Crypt::encryptString("user_type_name");
+    $user_type = Crypt::encryptString("user_type");
+@endphp
 <!-- Button trigger modal -->
 
   <!-- Modal -->
@@ -13,9 +17,9 @@
         <div class="modal-body">
             <form id="users-type-edit" onsubmit="return false">
                 @csrf
-                <input type="hidden" class="user_type" name="user_type" value=0>
+                <input type="hidden" class="{{$user_type}}" name="{{$user_type}}" value=0>
                 <label for="">User Type</label>
-                <input type="text" name="user_type_name" class="form-control user_type_name" placeholder="Enter user type here..">
+                <input type="text" name="{{$user_type_name}}" class="form-control {{$user_type_name}}" placeholder="Enter user type here..">
             </form>
         </div>
         <div class="modal-footer">
@@ -34,8 +38,8 @@
         var data = tr.parents('tr')
         var modal = $('#mod-user-type-edit')
         modal.modal('show')
-        modal.find('.user_type').val(data.data('user_type'))
-        modal.find('.user_type_name').val(data.data('user_type_name'))
+        modal.find('.{!! $user_type !!}').val(data.data('user_type'))
+        modal.find('.{!! $user_type_name !!}').val(data.data('user_type_name'))
     }
 
 
@@ -80,6 +84,10 @@
                 btn.html("Confirm")
                 btn.removeClass('disabled')
             }
+        }).fail(function(){
+            swal("Invalid Request","Please contact system administrator for assistance","error")
+            btn.html("Confirm")
+            btn.removeClass('disabled')
         });
 
     });

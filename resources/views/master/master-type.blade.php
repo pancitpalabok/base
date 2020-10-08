@@ -1,3 +1,7 @@
+@php
+    $master_type = Crypt::encryptString("master_type");
+@endphp
+
 <div class="card">
     <div class="card-header bg-lightblue">
         <h3 class="card-title">Master Type</h3>
@@ -53,6 +57,7 @@
             $.each(res, function (key, val) {
                 list_c+=1;
                 let data = '';
+
                 $.each(val, function (dkey, dval) {
                     data += ` data-`+dkey+`="`+dval+`"`
                 });
@@ -60,11 +65,19 @@
                 /* Add to Master*/
                 $('.master_type').append(new Option(val.master_type_name,val.master_type))
 
+                let is_locked = ""
+                if(val.master_type_count > 0)
+                    is_locked = "disabled"
+
                 list.append(`
                     <tr `+data+`>
                         <td onclick="master_list_data(`+val.master_type+`)">`+list_c+`.
-                        <td onclick="master_list_data(`+val.master_type+`)">`+val.master_type_name+`
-                        <td><x-master method="type-action" />
+                        <td onclick="master_list_data($(this))">`+val.master_type_name+`
+                        <td><x-master
+                                method="type-action"
+                                :data="[
+                                    'locked'=>'`+is_locked+`'
+                                ]" />
                     </tr>
                 `)
             });
@@ -89,7 +102,7 @@
             .then((willDelete) => {
                 if (willDelete) {
                     $.ajax({
-                        type : 'delete', url : "{!! route('master.type.delete') !!}", data : { master_type : master_type , _token : "{!! csrf_token() !!}" }
+                        type : 'delete', url : "{!! route('master.type.delete') !!}", data : { {!!$master_type!!} : master_type , _token : "{!! csrf_token() !!}" }
                     }).done(function(res){
                         swal(res.h,res.m,res.s)
                         master_type_data()

@@ -1,4 +1,7 @@
-
+@php
+    $master_type = Crypt::encryptString('master_type');
+    $master_type_name = Crypt::encryptString('master_type_name');
+@endphp
 <div class="modal fade master-type-edit" id="mod-master-type-edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -11,9 +14,9 @@
         <div class="modal-body">
             <form id="master-type-edit" onsubmit="return false">
                 @csrf
-                <input type="hidden" name="master_type" class="master_type">
+                <input type="hidden" name="{{$master_type}}">
                 <label for="">Master Type</label>
-                <input type="text" name="master_type_name" id="" class="form-control master_type_name" placeholder="Enter master type">
+                <input type="text" name="{{$master_type_name}}" id="" class="form-control" placeholder="Enter master type">
             </form>
         </div>
         <div class="modal-footer">
@@ -33,8 +36,8 @@
         let data = tr.parents('tr')
         var modal = $('#mod-master-type-edit')
         modal.modal('show')
-        $('.master_type').val(data.data('master_type'))
-        $('.master_type_name').val(data.data('master_type_name'))
+        modal.find('input[name="{!!$master_type!!}"]').val(data.data('master_type'))
+        modal.find('input[name="{!!$master_type_name!!}"]').val(data.data('master_type_name'))
     }
 
     $('.btn-master-type-edit').click(function (e) {
@@ -75,7 +78,11 @@
                 btn.html("Confirm")
                 btn.removeClass('disabled')
             }
-        });
+        }).fail(function(){
+            swal("Error has occurred!","Please contact your system administrator for assistance regarding this error","error")
+            btn.html("Confirm")
+            btn.removeClass('disabled')
+        })
 
     });
 </script>
