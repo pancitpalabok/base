@@ -1,5 +1,9 @@
 @php
     $user_type = Crypt::encryptString("user_type");
+
+    /** obfuscated data names */
+
+
 @endphp
 
 <div class="card card-outline card-orange">

@@ -52,10 +52,13 @@
         master_list_data(0,$(this).val())
     },300));
 
+
     function master_list_data(master_type = 0, master_search = '')
     {
         var tbl = $('.master-list-data')
         var tblc = 0;
+
+        $('.fa-trash-restore-alt').removeClass('text-danger')
 
         $.get("{!! route('master.list.data') !!}", { master_type : master_type, master_search : master_search },
             function (res) {
@@ -199,7 +202,7 @@
 
         var tbl = $('.master-list-data')
         var tblc = 0;
-
+        $('.fa-trash-restore-alt').addClass('text-danger')
         $.get("{!! route('master.list.deleted') !!}", {},
             function (res) {
                 tbl.html("")

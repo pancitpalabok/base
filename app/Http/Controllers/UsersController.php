@@ -108,7 +108,18 @@ class UsersController extends Controller
 
 
         /** get data from database sp for user type data */
-        return DB::select("CALL sp_users_type_data()");
+        $data =  DB::select("CALL sp_users_type_data()");
+        $result = [];
+
+        foreach($data as $rows) {
+            $cols = [];
+            foreach($rows as $key=>$val)
+                $cols[base64url_encode($key)] =  $val;
+            $result[] = $cols;
+        }
+
+
+        return $result;
     }
 
 

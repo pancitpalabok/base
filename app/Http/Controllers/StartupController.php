@@ -27,7 +27,13 @@ class StartupController extends Controller
                 'status'=>'active',
                 'title'=>'Dashboard',
                 'icon'=>'tachometer-alt',
-                'link'=>route('dashboard.index')
+                'link'=>route('dashboard.index'),
+                'badge'=>[
+                    (object) [
+                        'color'=>'info',
+                        'data'=>5
+                    ]
+                ]
             ],
 
 
@@ -73,6 +79,16 @@ class StartupController extends Controller
                 'icon'=>'th-list',
                 'link'=>route('master.index'),
                 'access'=>'2',
+                'badge'=>[
+                    (object) [
+                        'color'=>'danger',
+                        'data'=>5
+                    ],
+                    (object) [
+                        'color'=>'primary',
+                        'data'=>5
+                    ],
+                ]
             ],
             (object) [
                 'type'=>'link',
@@ -80,6 +96,16 @@ class StartupController extends Controller
                 'icon'=>'users',
                 'link'=>route('users.index'),
                 'access'=>'3',
+                'badge'=>[
+                    (object) [
+                        'color'=>'danger',
+                        'data'=>5
+                    ],
+                    (object) [
+                        'color'=>'primary',
+                        'data'=>5
+                    ],
+                ]
             ],
             (object) [
                 'type'=>'link',

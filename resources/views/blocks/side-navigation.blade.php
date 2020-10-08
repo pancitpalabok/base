@@ -18,7 +18,7 @@
             <img src="{{ url('images/placeholder.png') }}" class="img-circle elevation-2" style="height:35px;width:35px" alt="User Image">
           </div>
         <div class="info">
-          <a href="#" class="d-block">{{ "$user_info->user_firstname $user_info->user_lastname" }}</a>
+          <a onclick="load_page('{!! route('profile.index') !!}')" class="d-block">{{ "$user_info->user_firstname $user_info->user_lastname" }}</a>
         </div>
       </div>
 
@@ -68,6 +68,11 @@
                     <i class="nav-icon fas fa-{{ $link->icon }}"></i>
                         <p>
                         {{ $link->title }}
+                        @if (isset($link->badge))
+                            @foreach ($link->badge as $item)
+                                <span class="badge badge-{{$item->color}} right">{{$item->data}}</span>
+                            @endforeach
+                        @endif
                         </p>
                     </a>
                 </li>
@@ -78,14 +83,6 @@
                     <i class="nav-icon fas fa-question-circle"></i>
                     <p>
                         Help
-                    </p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="{{ route('login.logout') }}" class="nav-link">
-                    <i class="nav-icon fas fa-sign-out-alt"></i>
-                    <p>
-                        Logout
                     </p>
                 </a>
             </li>
