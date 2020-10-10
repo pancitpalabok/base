@@ -2,7 +2,10 @@
     $user_type = Crypt::encryptString("user_type");
 
     /** obfuscated data names */
-
+    $o_user_type_name = base64url_encode('user_type_name');
+    $o_user_type = base64url_encode('user_type');
+    $o_user_type_count = base64url_encode('user_type_count');
+    $o_user_type_disable = base64url_encode('user_type_disable');
 
 @endphp
 
@@ -80,12 +83,15 @@
 
                     let disabled = ''
                     let udisabled = 'disabled'
-                    if(vrow.user_type_count) {
+                    if(vrow.{!! $o_user_type_count !!}) {
                         disabled = 'disabled'
                         udisabled = ''
                     }
 
-
+                    a = vrow.{!! $o_user_type !!}
+                    b = vrow.{!! $o_user_type_name !!}
+                    c = vrow.{!! $o_user_type_count !!}
+                    d = vrow.{!! $o_user_type_disable !!}
                     tbl.append(`
                         <tr `+data+`>
                             <td  onclick="users_list_data(`+vrow.user_type+`)">`+rcount+`.</td>
@@ -96,7 +102,7 @@
                                         'user_type_name'=>'`+vrow.user_type_name+`',
                                         'user_type_count'=>'`+vrow.user_type_count+`',
                                         'disabled'=>'`+disabled+`',
-                                        'cog_disable'=>'`+vrow.user_type_disable+`',
+                                        'cog_disable'=>'`+vrow.$o_user_type_disable+`',
                                         'udisabled'=>'`+udisabled+`',
                                     ]"
                                 />
